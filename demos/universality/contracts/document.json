@@ -1,0 +1,77 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:universal:document:1.0.0",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "task",
+      "mode",
+      "notes",
+      "choice",
+      "userText",
+      "iteration"
+    ],
+    "properties": {
+      "task": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1200
+      },
+      "mode": {
+        "enum": [
+          "brief",
+          "deep"
+        ]
+      },
+      "notes": {
+        "type": "array",
+        "maxItems": 32,
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800
+        }
+      },
+      "choice": {
+        "enum": [
+          "",
+          "algorithm",
+          "model"
+        ]
+      },
+      "userText": {
+        "type": "string",
+        "maxLength": 500
+      },
+      "iteration": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 3
+      }
+    }
+  },
+  "semantics": "A task document and its mode, accumulated observations, user continuation and revision count.",
+  "fixtures": {
+    "valid": [
+      {
+        "task": "Evaluate tidal energy",
+        "mode": "brief",
+        "notes": [],
+        "choice": "",
+        "userText": "",
+        "iteration": 0
+      }
+    ],
+    "invalid": [
+      {
+        "task": "Evaluate tidal energy",
+        "mode": "brief",
+        "notes": [],
+        "choice": "",
+        "userText": "",
+        "iteration": 4
+      }
+    ]
+  }
+}

@@ -19,6 +19,8 @@ The research module uses deterministic findings by default. To connect an infere
 
 ## Repository
 
+The [Universality Lab](demos/universality/README.md) exercises different graphs, browser continuations, independently packaged modules and optional live models. It runs separately from the reference demo.
+
 | Path | Contents |
 | --- | --- |
 | `spec/0.1.0/`, `schemas/0.1.0/` | Normative text and machine-readable shapes |

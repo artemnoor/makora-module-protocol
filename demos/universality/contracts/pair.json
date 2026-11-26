@@ -1,0 +1,149 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:universal:pair:1.0.0",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "left",
+      "right"
+    ],
+    "properties": {
+      "left": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task",
+          "mode",
+          "notes",
+          "choice",
+          "userText",
+          "iteration"
+        ],
+        "properties": {
+          "task": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "mode": {
+            "enum": [
+              "brief",
+              "deep"
+            ]
+          },
+          "notes": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800
+            }
+          },
+          "choice": {
+            "enum": [
+              "",
+              "algorithm",
+              "model"
+            ]
+          },
+          "userText": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "iteration": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          }
+        }
+      },
+      "right": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task",
+          "mode",
+          "notes",
+          "choice",
+          "userText",
+          "iteration"
+        ],
+        "properties": {
+          "task": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "mode": {
+            "enum": [
+              "brief",
+              "deep"
+            ]
+          },
+          "notes": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800
+            }
+          },
+          "choice": {
+            "enum": [
+              "",
+              "algorithm",
+              "model"
+            ]
+          },
+          "userText": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "iteration": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          }
+        }
+      }
+    }
+  },
+  "semantics": "Two parallel observations for the same task to be merged.",
+  "fixtures": {
+    "valid": [
+      {
+        "left": {
+          "task": "Evaluate tidal energy",
+          "mode": "brief",
+          "notes": [],
+          "choice": "",
+          "userText": "",
+          "iteration": 0
+        },
+        "right": {
+          "task": "Evaluate tidal energy",
+          "mode": "brief",
+          "notes": [],
+          "choice": "",
+          "userText": "",
+          "iteration": 0
+        }
+      }
+    ],
+    "invalid": [
+      {
+        "left": {
+          "task": "Evaluate tidal energy",
+          "mode": "brief",
+          "notes": [],
+          "choice": "",
+          "userText": "",
+          "iteration": 0
+        }
+      }
+    ]
+  }
+}

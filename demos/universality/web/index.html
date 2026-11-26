@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Лаборатория MMP</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#workspace">К рабочей области</a>
+<header class="top"><div class="brand"><span class="mark" aria-hidden="true">M</span> Лаборатория MMP</div><span id="ai-mode"></span></header>
+<main id="workspace">
+  <section class="intro">
+    <h1>Композиция модулей</h1>
+    <p>Запустите задачу, изучите вызовы и выберите, как продолжить.</p>
+  </section>
+  <div class="workspace">
+    <div class="stack">
+      <section class="card">
+        <h2>Новая задача</h2>
+        <form id="start">
+          <label for="task">Задача</label>
+          <textarea id="task" name="task" rows="3" maxlength="1200" placeholder="Например, сравнить способы хранения энергии" required></textarea>
+          <label for="system">Система</label>
+          <select id="system" name="system"></select>
+          <button type="submit">Запустить</button>
+        </form>
+      </section>
+      <section class="card stage">
+        <div class="stage-bar"><h2>Выполнение</h2><div id="status" role="status"><span>Нет запуска</span></div></div>
+        <label for="run">Запуск</label>
+        <select id="run" disabled><option value="">Нет запусков</option></select>
+        <p id="message" role="alert" hidden></p>
+        <p id="decision" class="muted" hidden></p>
+        <div id="intermediate" class="output" hidden><h3>Промежуточный результат</h3><ul></ul></div>
+        <iframe id="module-ui" sandbox="allow-scripts allow-forms" title="Форма модуля для продолжения" hidden></iframe>
+        <div id="result" class="output final" hidden><h3>Итоговый результат</h3><ul></ul></div>
+        <button id="cancel" class="secondary" type="button" hidden>Отменить</button>
+      </section>
+    </div>
+    <aside class="card trace">
+      <h2>Граф выполнения</h2>
+      <p class="muted" id="trace-empty">Вызовы появятся после запуска.</p>
+      <ol id="graph" class="flow" aria-label="Граф вызовов MMP"></ol>
+      <div class="timeline">
+        <h2>История вызовов</h2>
+        <ol id="history" aria-label="История вызовов MMP"></ol>
+      </div>
+    </aside>
+  </div>
+</main>
+</body>
+</html>

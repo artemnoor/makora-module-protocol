@@ -9,12 +9,15 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit && uv run --locked mypy --check-untyped-defs --follow-imports=silent --explicit-package-bases examples/module.py spike/module.py",
+    "typecheck": "tsc --noEmit && uv run --locked mypy --check-untyped-defs --follow-imports=silent --explicit-package-bases examples/module.py spike/module.py demos/universality/modules demos/universality/third-party/src",
     "test": "npm run build && node --test conformance/*.test.mjs",
-    "lint": "eslint . && uv run --locked ruff check examples spike/module.py && npm run lint:architecture",
+    "lint": "eslint . && uv run --locked ruff check examples spike/module.py demos/universality && npm run lint:architecture",
     "lint:architecture": "node --test conformance/architecture.test.mjs",
     "verify:release": "npm run lint && npm run typecheck && npm test",
-    "demo": "npm run build && node examples/demo.mjs"
+    "demo": "npm run build && node examples/demo.mjs",
+    "demo:universality": "npm run build && node demos/universality/server.mjs",
+    "verify:universality": "npm run build && node --test demos/universality/tests/*.test.mjs",
+    "verify:universality:live": "npm run build && node demos/universality/live.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/client": "2.4.0",
@@ -28,6 +31,7 @@
     "@types/node": "22.18.8",
     "@types/semver": "7.7.1",
     "eslint": "9.39.5",
+    "playwright": "1.65.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.74.0"
   }
