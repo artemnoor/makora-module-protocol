@@ -1,0 +1,43 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:example:amount-rub-major:1.0.0",
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 10000000
+      },
+      "currency": {
+        "const": "RUB"
+      },
+      "unit": {
+        "const": "major"
+      }
+    },
+    "required": [
+      "amount",
+      "currency",
+      "unit"
+    ],
+    "additionalProperties": false
+  },
+  "semantics": "The exact integer number of whole rubles.",
+  "fixtures": {
+    "valid": [
+      {
+        "amount": 3,
+        "currency": "RUB",
+        "unit": "major"
+      }
+    ],
+    "invalid": [
+      {
+        "amount": 300,
+        "currency": "RUB",
+        "unit": "minor"
+      }
+    ]
+  }
+}

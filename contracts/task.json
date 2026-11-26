@@ -1,0 +1,36 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:example:task:1.0.0",
+    "type": "object",
+    "properties": {
+      "topic": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "waitMs": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60000
+      }
+    },
+    "required": [
+      "topic"
+    ],
+    "additionalProperties": false
+  },
+  "semantics": "A topic and optional artificial delay in milliseconds.",
+  "fixtures": {
+    "valid": [
+      {
+        "topic": "study"
+      }
+    ],
+    "invalid": [
+      {
+        "topic": 9
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:example:receipt:1.0.0",
+    "type": "object",
+    "properties": {
+      "sequence": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "text": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      }
+    },
+    "required": [
+      "sequence",
+      "text"
+    ],
+    "additionalProperties": false
+  },
+  "semantics": "A local demo process sequence number and saved text.",
+  "fixtures": {
+    "valid": [
+      {
+        "sequence": 1,
+        "text": "saved"
+      }
+    ],
+    "invalid": [
+      {
+        "sequence": 0,
+        "text": "saved"
+      }
+    ]
+  }
+}

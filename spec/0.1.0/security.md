@@ -1,0 +1,7 @@
+# Security
+
+A valid descriptor is descriptive. Policy is configured separately and is default-deny. Assess the target operation and each immediate authenticated caller. Do not inherit upstream grants. The Reference Host launches trusted local packages with explicitly pinned identities, versions and file content. The operator owns local deployment integrity, including immutable package directories and dependency installation.
+
+The module process receives its own short-lived Gateway credential and a distinct Host-to-module grant over its private process boundary. Modules MUST keep credentials out of operation arguments, results, and logs. A protected tool MUST reject direct MCP calls without its required Host authorization, and the Host MUST run its own policy and deduplication before supplying the grant. Treat tool output as untrusted data. Only trusted catalog schemas may control validation, with no network schema resolution.
+
+The Reference Host restricts Gateway HTTP to loopback and bounds message size, data depth, operation time and call depth. Outside a trusted local boundary an HTTP deployment MUST authenticate and authorize requests over TLS. Stdio is not sandboxing. Run untrusted code only in separate isolation with actual network and filesystem constraints.

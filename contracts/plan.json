@@ -1,0 +1,49 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:example:plan:1.0.0",
+    "type": "object",
+    "properties": {
+      "topic": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "findings": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 8,
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      }
+    },
+    "required": [
+      "topic",
+      "findings"
+    ],
+    "additionalProperties": false
+  },
+  "semantics": "A topic and the findings from at least two branches.",
+  "fixtures": {
+    "valid": [
+      {
+        "topic": "study",
+        "findings": [
+          "a",
+          "b"
+        ]
+      }
+    ],
+    "invalid": [
+      {
+        "topic": "study",
+        "findings": [
+          "a"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "org.example.python",
+  "publisher": "org.example",
+  "version": "1.0.0",
+  "mmpVersion": "0.1.0",
+  "description": "Example MMP python module.",
+  "requires": [],
+  "operations": [
+    {
+      "capability": "org.example/research",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0",
+      "tool": "research",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    },
+    {
+      "capability": "org.example/secondary",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0",
+      "tool": "secondary",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    }
+  ]
+}

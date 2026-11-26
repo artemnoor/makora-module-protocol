@@ -1,0 +1,28 @@
+{
+  "id": "org.example.planner",
+  "publisher": "org.example",
+  "version": "1.0.0",
+  "mmpVersion": "0.1.0",
+  "description": "Example MMP planner module.",
+  "requires": [
+    {
+      "capability": "org.example/review",
+      "inputContract": "urn:mmp:example:plan:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0"
+    }
+  ],
+  "operations": [
+    {
+      "capability": "org.example/plan",
+      "inputContract": "urn:mmp:example:plan:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0",
+      "tool": "plan",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    }
+  ]
+}

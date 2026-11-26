@@ -1,0 +1,34 @@
+{
+  "name": "makora-module-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit && uv run --locked mypy --check-untyped-defs --follow-imports=silent --explicit-package-bases examples/module.py spike/module.py",
+    "test": "npm run build && node --test conformance/*.test.mjs",
+    "lint": "eslint . && uv run --locked ruff check examples spike/module.py && npm run lint:architecture",
+    "lint:architecture": "node --test conformance/architecture.test.mjs",
+    "verify:release": "npm run lint && npm run typecheck && npm test",
+    "demo": "npm run build && node examples/demo.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "@modelcontextprotocol/node": "2.1.2",
+    "@modelcontextprotocol/server": "2.4.0",
+    "ajv": "8.18.0",
+    "semver": "7.8.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.8",
+    "@types/semver": "7.7.1",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.74.0"
+  }
+}

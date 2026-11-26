@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mmp:schema:error:0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "message",
+    "retryable",
+    "outcome",
+    "correlationId"
+  ],
+  "properties": {
+    "kind": {
+      "enum": [
+        "CONTRACT_MISMATCH",
+        "DEPENDENCY_UNAVAILABLE",
+        "PERMISSION_DENIED",
+        "DEADLINE_EXCEEDED",
+        "IDEMPOTENCY_CONFLICT",
+        "CYCLE_DETECTED",
+        "MAX_DEPTH_EXCEEDED",
+        "CANCELLED",
+        "INTERNAL"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retryable": {
+      "type": "boolean"
+    },
+    "outcome": {
+      "enum": [
+        "not-started",
+        "failed",
+        "unknown"
+      ]
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

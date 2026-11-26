@@ -1,0 +1,43 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:example:amount-rub-minor:1.0.0",
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1000000000
+      },
+      "currency": {
+        "const": "RUB"
+      },
+      "unit": {
+        "const": "minor"
+      }
+    },
+    "required": [
+      "amount",
+      "currency",
+      "unit"
+    ],
+    "additionalProperties": false
+  },
+  "semantics": "The exact integer number of kopecks.",
+  "fixtures": {
+    "valid": [
+      {
+        "amount": 300,
+        "currency": "RUB",
+        "unit": "minor"
+      }
+    ],
+    "invalid": [
+      {
+        "amount": 3,
+        "currency": "RUB",
+        "unit": "major"
+      }
+    ]
+  }
+}

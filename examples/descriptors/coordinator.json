@@ -1,0 +1,72 @@
+{
+  "id": "org.example.coordinator",
+  "publisher": "org.example",
+  "version": "1.0.0",
+  "mmpVersion": "0.1.0",
+  "description": "Example MMP coordinator module.",
+  "requires": [
+    {
+      "capability": "org.example/research",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0"
+    },
+    {
+      "capability": "org.example/secondary",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0"
+    },
+    {
+      "capability": "org.example/plan",
+      "inputContract": "urn:mmp:example:plan:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0"
+    },
+    {
+      "capability": "org.example/cycle",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0"
+    },
+    {
+      "capability": "org.example/record",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:receipt:1.0.0"
+    }
+  ],
+  "operations": [
+    {
+      "capability": "org.example/coordinate",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0",
+      "tool": "coordinate",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    },
+    {
+      "capability": "org.example/cycle",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:report:1.0.0",
+      "tool": "cycle",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    },
+    {
+      "capability": "org.example/record-nested",
+      "inputContract": "urn:mmp:example:task:1.0.0",
+      "outputContract": "urn:mmp:example:receipt:1.0.0",
+      "tool": "recordNested",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    }
+  ]
+}

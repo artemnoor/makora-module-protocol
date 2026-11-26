@@ -1,0 +1,9 @@
+# Execution
+
+The Host assigns an opaque correlation ID, active capability chain, absolute Unix deadline in milliseconds and finite depth limit. Each branch owns its active chain. A repeated capability on that chain is a cycle. The Gateway MUST allow unrelated sibling work without a lock held across downstream calls.
+
+A child deadline MUST be at or before the parent's. Use MCP cancellation for active descendants and stop dispatching when the budget or parent invocation ends. Cancellation is best effort. It cannot establish that an effect was rolled back. A missing execution result following a dispatched timeout or cancellation has outcome `unknown`.
+
+MCP transport and protocol errors retain upstream meaning. An MMP execution failure uses `isError: true`, human-readable content, and the [MMP error profile](../../schemas/0.1.0/error.schema.json) in `_meta["org.example/mmp-error"]`. The success output schema does not apply to error results. A retryability hint does not grant permission to retry. The Host records outcome as `not-started`, `failed` or `unknown`, according to available evidence.
+
+Modes are `none`, `natural`, and `deduplicated`. For deduplication, scope includes the authenticated caller, pinned target module/version/tool, and key. Object-key ordering does not affect equality. Array order and JSON value types are significant. A retained key with different arguments or a different pinned provider MUST fail with `IDEMPOTENCY_CONFLICT`. Duplicate calls share the in-flight result or a saved terminal result and MUST NOT start the effect again. The provider declares retention and whether the state survives restart. The Reference Host supports process-local state only and rejects a persistent guarantee. Retention starts when the attempt terminates. There is no replay guarantee after expiry or process restart.

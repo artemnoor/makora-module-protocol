@@ -1,0 +1,34 @@
+{
+  "id": "org.example.adapter",
+  "publisher": "org.example",
+  "version": "1.0.0",
+  "mmpVersion": "0.1.0",
+  "description": "Example MMP adapter module.",
+  "requires": [],
+  "operations": [
+    {
+      "capability": "org.example/amount.convert",
+      "inputContract": "urn:mmp:example:amount-rub-major:1.0.0",
+      "outputContract": "urn:mmp:example:amount-rub-minor:1.0.0",
+      "tool": "asKopecks",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    },
+    {
+      "capability": "org.example/amount.accept",
+      "inputContract": "urn:mmp:example:amount-rub-minor:1.0.0",
+      "outputContract": "urn:mmp:example:amount-rub-minor:1.0.0",
+      "tool": "takeKopecks",
+      "permissions": [],
+      "effects": "read-only",
+      "execution": "sync",
+      "idempotency": {
+        "mode": "natural"
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "dist/examples/module.js": "56b838f1f940960dcb861533faaef3a322f75664a5ba3616f0da8588dd541fb1",
+  "dist/sdk/typescript/index.js": "6cf38ee7bb3c67830d1b8ce5d1f2d48254e63483afac0f189778492e24f599be",
+  "examples/module.py": "f17ff41fcf97a1b041970ed7562989c4e5e2551c20dad1e8cead488676d14a4e",
+  "examples/descriptors/adapter.json": "4c6d27fc8c414aa96630159fb0d0d36642c0cf42802ee5e96261d0e1e59c2bb7",
+  "examples/descriptors/coordinator.json": "fe91ea9cfcca5c6f3fd390dfeead223cb2524deae7dbd89db3e9dfc9127df54e",
+  "examples/descriptors/ledger.json": "983646b5c73eff10f4f55d053271ea728d94d806a1136bbae666a640abf252f6",
+  "examples/descriptors/planner.json": "cee6a91b55cc048a9ece2c85cefe4fa832f7e9c4f3c12de3a50de9c6fbee3cc5",
+  "examples/descriptors/python.json": "99ef33d515865285fd6e9960790f17c4ca42834fd404fc06077b333811db5c3f",
+  "examples/descriptors/research.json": "aeb2e5dfa49b5c091670ec0c24b056f89f85281a43b21af1633164a3e568bf79",
+  "examples/descriptors/reviewer.json": "e2281c6a618341df6224a53bd6ceeaff3407e91597e9bbd61913142a334bcea4",
+  "contracts/amount-rub-major.json": "bde3dee29055ef889272fa5494742dddc76d4dfba93e0c89c90ce68c42f25b5d",
+  "contracts/amount-rub-minor.json": "34f1f611ed726540136f57a453709bd936fcffbd95a53dda5a05365211dfe715",
+  "contracts/plan.json": "8774cd3169cbbda8ddc5c77f56a0a9f9ad20c1d1f4cd3ef5dc1a0856d9e66f0e",
+  "contracts/receipt.json": "46d70391adcfc78fc8b8a5fbd9bb888ff19859d3fea031be3418cd89f7a2bb8b",
+  "contracts/report.json": "eeba8b120a9f90e156fb5c8a9668229e3d81182dcca15b1a4424fb29a72e2896",
+  "contracts/task.json": "f324d9c86e33ffbb972aa15048a02595894bbf9959610f59519b2d359d6a48c3"
+}
