@@ -15,7 +15,7 @@ from pydantic import BaseModel
 
 
 class MmpExtension(Extension):
-    identifier = "org.example/mmp"
+    identifier = "io.github.artemnoor/mmp"
 
     def settings(self):
         return {"descriptor": {"id": "python", "mmpVersion": "0.1.0"}}
@@ -45,8 +45,8 @@ async def delegate(topic: str, capability: str, ctx: Context, waitMs: int = 0) -
         transport = streamable_http_client(os.environ["MMP_GATEWAY"], http_client=http)
         async with Client(transport, mode="2026-07-28") as client:
             inbound = ctx.request_context.meta
-            value = (inbound or {}).get("org.example/mmp-context")
-            metadata = cast(RequestParamsMeta, {"org.example/mmp-context": value})
+            value = (inbound or {}).get("io.github.artemnoor/mmp-context")
+            metadata = cast(RequestParamsMeta, {"io.github.artemnoor/mmp-context": value})
             result = await client.call_tool(
                 "mmp_invoke",
                 {

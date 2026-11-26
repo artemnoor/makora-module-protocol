@@ -1,0 +1,31 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:starter:message:1.0.0",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "message"
+    ],
+    "properties": {
+      "message": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    }
+  },
+  "semantics": "A human-readable message of at most 200 characters.",
+  "fixtures": {
+    "valid": [
+      {
+        "message": "hello"
+      }
+    ],
+    "invalid": [
+      {
+        "message": 1
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 {
   "dist/examples/module.js": "56b838f1f940960dcb861533faaef3a322f75664a5ba3616f0da8588dd541fb1",
-  "dist/sdk/typescript/index.js": "6cf38ee7bb3c67830d1b8ce5d1f2d48254e63483afac0f189778492e24f599be",
-  "examples/module.py": "f17ff41fcf97a1b041970ed7562989c4e5e2551c20dad1e8cead488676d14a4e",
+  "dist/sdk/typescript/index.js": "cdb4d32c1799cb269236cbdfe9b8b4db75130c254779606b173bba31cb2641f6",
+  "examples/module.py": "cbfc3ca2f33042ad95f58732f927e23f0a5572270f91f9225909704b3e179619",
   "examples/descriptors/adapter.json": "4c6d27fc8c414aa96630159fb0d0d36642c0cf42802ee5e96261d0e1e59c2bb7",
   "examples/descriptors/coordinator.json": "fe91ea9cfcca5c6f3fd390dfeead223cb2524deae7dbd89db3e9dfc9127df54e",
   "examples/descriptors/ledger.json": "983646b5c73eff10f4f55d053271ea728d94d806a1136bbae666a640abf252f6",

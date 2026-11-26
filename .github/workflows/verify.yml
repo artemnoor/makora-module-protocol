@@ -27,6 +27,8 @@ jobs:
       - run: uv sync --locked --python 3.12
       - run: npm ci
       - run: npm run verify:release
+      - if: runner.os == 'Linux'
+        run: npm run verify:external
       - run: node examples/demo.mjs
       - run: npm ci
         working-directory: spike

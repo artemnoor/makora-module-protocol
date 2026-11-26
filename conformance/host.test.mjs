@@ -50,6 +50,10 @@ test("default deny and invalid business data", async () => {
   error(await host.call(caller, task("coordinate", 3)), "CONTRACT_MISMATCH");
   const response = await fetch(host.gateway, { method: "POST", body: "{}" });
   equal(response.status, 401);
+  const disallowed = await fetch(host.gateway, {
+    method: "POST", headers: { origin: "https://example.invalid" }, body: "{}",
+  });
+  equal(disallowed.status, 403);
 });
 
 test("missing capability and exact contract mismatch", async () => {

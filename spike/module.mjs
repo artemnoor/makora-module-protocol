@@ -31,7 +31,7 @@ server.registerTool("report", { inputSchema: input, outputSchema: output }, asyn
   return structured({ findings: [`${id}:${args.topic}`] });
 });
 server.registerTool("protected", { inputSchema: input, outputSchema: output }, async (args, ctx) => {
-  if (ctx.mcpReq._meta?.["org.example/mmp-grant"] !== process.env.MMP_HOST_GRANT || !process.env.MMP_HOST_GRANT) {
+  if (ctx.mcpReq._meta?.["io.github.artemnoor/mmp-grant"] !== process.env.MMP_HOST_GRANT || !process.env.MMP_HOST_GRANT) {
     return failure("PERMISSION_DENIED", "unavailable");
   }
   return structured({ findings: [args.topic] });

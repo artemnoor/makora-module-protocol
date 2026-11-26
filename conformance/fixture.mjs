@@ -19,7 +19,7 @@ if (variant === "persistent") {
   descriptor.operations[0].idempotency = { mode: "deduplicated", retentionSeconds: 1, restartPersistent: true };
 }
 const capabilities = variant === "unadvertised" ? {} : {
-  extensions: { "org.example/mmp": { descriptor } },
+  extensions: { [variant === "draft-extension" ? "org.example/mmp" : "io.github.artemnoor/mmp"]: { descriptor } },
 };
 serveStdio(() => {
   const server = new McpServer({ name: descriptor.id, version: descriptor.version }, { capabilities });

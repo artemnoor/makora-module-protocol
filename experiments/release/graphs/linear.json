@@ -1,0 +1,30 @@
+{
+  "steps": [
+    {
+      "id": "classify",
+      "after": [],
+      "invoke": {
+        "capability": "org.independent/classify",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "$ref": "input.reading"
+      }
+    },
+    {
+      "id": "normalize",
+      "after": [
+        "classify"
+      ],
+      "invoke": {
+        "capability": "org.independent/normalize",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "$ref": "classify"
+      }
+    }
+  ]
+}

@@ -17,3 +17,7 @@ References: https://modelcontextprotocol.io/specification/2026-07-28/basic/trans
 Use MCP 2026-07-28 on both MMP links. Use private stdio for the reference module processes and authenticated loopback HTTP for their outgoing calls. TS and Python carried complete example descriptors under extension settings. The Node SDK adapter preserves upstream HTTP framing and request cancellation. Keep `org.example` for the draft, with stable naming subject to ownership confirmation. Preserve the ordinary MCP fallback for public tools.
 
 Deduplication state in the Reference Host is process-local. A host MUST reject a module's persistence claim when that host cannot honor it. Expiry starts at termination. Use an in-memory promise for parallel replay, and bind the logical caller/key to the original target until expiry.
+
+## 004. Release namespace and public archive
+
+The protocol namespace is `io.github.artemnoor`, derived from the verified repository owner's GitHub account namespace. Publish the wire keys and migration from the draft explicitly. The standalone npm archive exports the SDK, Reference Host and JSON Schemas; its consumers can run in a separate project. See the [release candidate report](docs/release-0.1.0.md).

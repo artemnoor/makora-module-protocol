@@ -1,0 +1,89 @@
+{
+  "steps": [
+    {
+      "id": "classify",
+      "after": [],
+      "invoke": {
+        "capability": "org.independent/classify",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "$ref": "input.reading"
+      }
+    },
+    {
+      "id": "normalize",
+      "after": [],
+      "invoke": {
+        "capability": "org.independent/normalize",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "$ref": "input.reading"
+      }
+    },
+    {
+      "id": "merge",
+      "after": [
+        "classify",
+        "normalize"
+      ],
+      "invoke": {
+        "capability": "org.independent/merge",
+        "inputContract": "urn:mmp:independent:pair:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "left": {
+          "$ref": "classify"
+        },
+        "right": {
+          "$ref": "normalize"
+        }
+      }
+    },
+    {
+      "id": "adapt",
+      "after": [
+        "merge"
+      ],
+      "invoke": {
+        "capability": "org.independent/to-task",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:example:task:1.0.0"
+      },
+      "arguments": {
+        "$ref": "merge"
+      },
+      "when": {
+        "ref": {
+          "$ref": "merge.severity"
+        },
+        "equals": "review"
+      }
+    },
+    {
+      "id": "research",
+      "after": [
+        "adapt",
+        "merge"
+      ],
+      "invoke": {
+        "capability": "org.example/research",
+        "inputContract": "urn:mmp:example:task:1.0.0",
+        "outputContract": "urn:mmp:example:report:1.0.0"
+      },
+      "arguments": {
+        "$ref": "adapt"
+      },
+      "when": {
+        "ref": {
+          "$ref": "merge.severity"
+        },
+        "equals": "review"
+      }
+    }
+  ]
+}

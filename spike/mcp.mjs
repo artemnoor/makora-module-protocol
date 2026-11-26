@@ -1,9 +1,9 @@
 import { Client, StreamableHTTPClientTransport } from "@modelcontextprotocol/client";
 
 export const revision = "2026-07-28";
-export const extension = "org.example/mmp";
-export const callContext = "org.example/mmp-context";
-export const operationError = "org.example/mmp-error";
+export const extension = "io.github.artemnoor/mmp";
+export const callContext = "io.github.artemnoor/mmp-context";
+export const operationError = "io.github.artemnoor/mmp-error";
 export const report = "urn:mmp:example:report:1.0.0";
 export const task = "urn:mmp:example:task:1.0.0";
 

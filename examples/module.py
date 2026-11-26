@@ -21,9 +21,9 @@ from mcp.types import (
 
 ROOT = Path(__file__).resolve().parents[1]
 ROLE = sys.argv[1]
-EXTENSION = "org.example/mmp"
-CONTEXT = "org.example/mmp-context"
-ERROR = "org.example/mmp-error"
+EXTENSION = "io.github.artemnoor/mmp"
+CONTEXT = "io.github.artemnoor/mmp-context"
+ERROR = "io.github.artemnoor/mmp-error"
 
 
 def read(path):

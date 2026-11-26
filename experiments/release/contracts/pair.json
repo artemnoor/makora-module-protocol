@@ -1,0 +1,117 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:independent:pair:1.0.0",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "left",
+      "right"
+    ],
+    "properties": {
+      "left": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "amount",
+          "severity",
+          "notes"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "amount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "severity": {
+            "enum": [
+              "pending",
+              "normal",
+              "review"
+            ]
+          },
+          "notes": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "maxLength": 240
+            }
+          }
+        }
+      },
+      "right": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "amount",
+          "severity",
+          "notes"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "amount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "severity": {
+            "enum": [
+              "pending",
+              "normal",
+              "review"
+            ]
+          },
+          "notes": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "maxLength": 240
+            }
+          }
+        }
+      }
+    }
+  },
+  "semantics": "Parallel results for the same measurement before a merge.",
+  "fixtures": {
+    "valid": [
+      {
+        "left": {
+          "source": " sensor alpha ",
+          "amount": 82,
+          "severity": "pending",
+          "notes": []
+        },
+        "right": {
+          "source": " sensor alpha ",
+          "amount": 82,
+          "severity": "pending",
+          "notes": []
+        }
+      }
+    ],
+    "invalid": [
+      {
+        "left": {
+          "source": " sensor alpha ",
+          "amount": 82,
+          "severity": "pending",
+          "notes": []
+        }
+      }
+    ]
+  }
+}

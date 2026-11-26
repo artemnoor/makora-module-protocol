@@ -1,0 +1,25 @@
+{
+  "steps": [
+    {
+      "id": "classify",
+      "after": [],
+      "invoke": {
+        "capability": "org.independent/classify",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": { "$ref": "input.reading" }
+    },
+    {
+      "id": "assist",
+      "after": ["classify"],
+      "invoke": {
+        "capability": "org.independent/assist",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": { "$ref": "classify" },
+      "when": { "ref": { "$ref": "input.useInference" }, "equals": true }
+    }
+  ]
+}

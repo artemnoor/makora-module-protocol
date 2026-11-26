@@ -1,10 +1,10 @@
 {
   "dist/demos/universality/modules/worker.js": "883efef7a4c8b1abf34627a2d431609c725928850ac4223c80e196efe2f5557a",
-  "dist/sdk/typescript/index.js": "6cf38ee7bb3c67830d1b8ce5d1f2d48254e63483afac0f189778492e24f599be",
+  "dist/sdk/typescript/index.js": "cdb4d32c1799cb269236cbdfe9b8b4db75130c254779606b173bba31cb2641f6",
   "demos/universality/contracts/document.json": "bd5eb51ae6e442d21c0173ecd954134ce11fa927e80f2714233ce464afb45c9d",
   "demos/universality/contracts/pair.json": "e6d5a5945115f182db673559055722ddf2f249330fcb7e35e1858ad0f0d87fa0",
   "demos/universality/model.mjs": "88984909157405049337adff88a5a7c07b360699a54f9d22357033ca3c1627c1",
-  "demos/universality/modules/metrics.py": "3e0c55e3ad80002317c995f1dcc9f019d9b3e19a1a6c009aea9f4ec17b801fa3",
+  "demos/universality/modules/metrics.py": "48826c6e56e713119a6b5e142cd0cfa95e1b36e6189106c119b8a7e78c91eaa5",
   "demos/universality/surface.mjs": "e980df05dbf5a4d58c46241cfd2cb7574a27301973e41e2ad1ac52853425c487",
-  "demos/universality/third-party/src/mmp_independent_decorator/server.py": "56fb0b7cef1ccfb9ba000402f303c336c314bfe9377c845246027ced3f8d0992"
+  "demos/universality/third-party/src/mmp_independent_decorator/server.py": "4ae1075472c4addf3d53daae6817e3b04c58e598338fcc07653db3b742422de7"
 }

@@ -20,7 +20,7 @@ MMP_VERSION = "0.1.0"
 CONTRACT_ID = "urn:mmp:universal:document:1.0.0"
 CAPABILITY = "org.example/universal.decorate"
 TOOL_NAME = "decorate"
-EXTENSION = "org.example/mmp"
+EXTENSION = "io.github.artemnoor/mmp"
 CONTRIBUTION = "Independent Python contribution"
 
 

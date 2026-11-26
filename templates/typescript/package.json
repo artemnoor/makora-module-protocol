@@ -1,0 +1,16 @@
+{
+  "name": "mmp-typescript-starter",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc server.ts --target ES2023 --module NodeNext --strict --skipLibCheck --outDir dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.8",
+    "typescript": "5.9.3"
+  }
+}

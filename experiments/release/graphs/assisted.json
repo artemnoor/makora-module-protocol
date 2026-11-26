@@ -1,0 +1,77 @@
+{
+  "steps": [
+    {
+      "id": "normalize",
+      "after": [],
+      "invoke": {
+        "capability": "org.independent/normalize",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "$ref": "input.reading"
+      }
+    },
+    {
+      "id": "decision",
+      "after": [
+        "normalize"
+      ],
+      "prompt": "Enter the operator label"
+    },
+    {
+      "id": "classify",
+      "after": [
+        "normalize",
+        "decision"
+      ],
+      "invoke": {
+        "capability": "org.independent/classify",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:independent:reading:1.0.0"
+      },
+      "arguments": {
+        "source": {
+          "$ref": "decision"
+        },
+        "amount": {
+          "$ref": "normalize.amount"
+        },
+        "severity": {
+          "$ref": "normalize.severity"
+        },
+        "notes": {
+          "$ref": "normalize.notes"
+        }
+      }
+    },
+    {
+      "id": "adapt",
+      "after": [
+        "classify"
+      ],
+      "invoke": {
+        "capability": "org.independent/to-task",
+        "inputContract": "urn:mmp:independent:reading:1.0.0",
+        "outputContract": "urn:mmp:example:task:1.0.0"
+      },
+      "arguments": {
+        "$ref": "classify"
+      }
+    },
+    {
+      "id": "research",
+      "after": [
+        "adapt"
+      ],
+      "invoke": {
+        "capability": "org.example/research",
+        "inputContract": "urn:mmp:example:task:1.0.0",
+        "outputContract": "urn:mmp:example:report:1.0.0"
+      },
+      "arguments": {
+        "$ref": "adapt"
+      }
+    }
+  ]
+}

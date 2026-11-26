@@ -33,7 +33,7 @@ async def main():
         descriptor["id"], version=descriptor["version"],
         on_list_tools=list_tools, on_call_tool=call_tool,
     )
-    server.extensions = {"org.example/mmp": {"descriptor": descriptor}}
+    server.extensions = {"io.github.artemnoor/mmp": {"descriptor": descriptor}}
     async with stdio_server() as (reader, writer):
         await server.run(reader, writer, server.create_initialization_options())
 

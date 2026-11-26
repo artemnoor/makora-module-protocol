@@ -12,6 +12,7 @@ const fixture = "conformance/fixture.mjs";
 const hash = digest(await readFile(join(root, fixture)));
 for (const [variant, reason] of [
   ["unadvertised", /descriptor/],
+  ["draft-extension", /descriptor/],
   ["malformed", /descriptor/],
   ["version", /descriptor/],
   ["package-version", /descriptor/],

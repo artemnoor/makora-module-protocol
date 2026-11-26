@@ -183,6 +183,13 @@ export async function startHost(config: HostConfig) {
   }, { legacy: "reject" });
   const mcpHttp = toNodeHandler(mcpHandler, { maxRequestBodySize: 64 * 1024 });
   const http = createServer((req: IncomingMessage & { auth?: { token: string; clientId: string; scopes: string[] } }, res) => {
+    const endpoint = http.address();
+    const authority = endpoint && typeof endpoint !== "string" ? `127.0.0.1:${endpoint.port}` : "";
+    if (req.headers.host !== authority ||
+      (req.headers.origin !== undefined && req.headers.origin !== `http://${authority}`)) {
+      res.writeHead(403).end();
+      return;
+    }
     if (req.url !== "/mcp") return res.writeHead(404).end();
     const credential = /^Bearer (.+)$/i.exec(req.headers.authorization ?? "")?.[1];
     const caller = credential && credentials.get(credential);

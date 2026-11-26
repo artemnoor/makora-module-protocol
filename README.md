@@ -1,118 +1,78 @@
 # Makora Module Protocol
 
-**MMP 0.1.0 · Черновик спецификации · На базе MCP 2026-07-28**
+**MMP 0.1.0 · Release candidate · MCP 2026-07-28**
 
-MMP задаёт правила, по которым независимо разработанные модули объявляют свои возможности, вызывают друг друга и заменяются в работающем приложении. Модуль запрашивает возможность по имени и точным версиям контрактов входа и выхода. Хост проверяет запрос и выбирает реализацию, которой разрешён вызов.
+Makora Module Protocol is an open profile of the Model Context Protocol for independently developed software modules. A module declares the capabilities it provides and the ones it needs. A Host resolves each request using a capability identifier and the exact versions of its input and output contracts.
 
-**Пример из репозитория.** Координатор запускает две исследовательские ветви, объединяет их данные и передаёт их планировщику на Python. Планировщик сам вызывает рецензента на TypeScript. Затем хост заменяет одного исследователя совместимой Python-реализацией, и тот же запрос снова проходит через того же координатора.
+A module can be a conventional algorithm, a model-backed service, a connector to an external system or an operation with a user interface. Its implementation is a choice for its author. The same protocol applies to systems that run entirely without AI.
 
-[Быстрый старт](#быстрый-старт) · [MMP и MCP](#что-mmp-добавляет-к-mcp) · [Спецификация](spec/0.1.0/overview.md) · [Лаборатория](demos/universality/README.md) · [Проверки на GitHub](https://github.com/artemnoor/makora-module-protocol/actions)
+[Русская версия](README.ru.md) · [Developer guide](docs/developer-guide.md) · [Specification](spec/0.1.0/overview.md) · [Release verification](docs/release-0.1.0.md)
 
-## Что MMP добавляет к MCP
+## How MMP uses MCP
 
-[Model Context Protocol](https://modelcontextprotocol.io/specification/2026-07-28) определяет, как клиент обнаруживает и вызывает инструменты MCP-сервера, получает ресурсы и шаблоны и обменивается сообщениями. На этой основе уже можно строить рабочие процессы. MMP — самостоятельный профиль использования MCP. Он уточняет правила для приложений, которым нужны зависимости между модулями и замена реализаций по проверяемым контрактам. Спецификация, схемы и документация базового протокола находятся в [официальном репозитории MCP](https://github.com/modelcontextprotocol/modelcontextprotocol#readme).
-
-| Вопрос | MCP | Профиль MMP 0.1 |
+| Concern | MCP foundation | MMP profile |
 | --- | --- | --- |
-| **Как обнаружить операцию?** | Клиент получает список инструментов конкретного сервера через `tools/list`. | Модуль также публикует дескриптор возможностей и зависимостей в `server/discover`. |
-| **Как понять, что данные совместимы?** | Инструмент описывает форму аргументов и может объявить схему результата. | Для входа и выхода обязательны точные идентификаторы версионированных контрактов. Доверенный каталог хранит схему, смысл данных и примеры. |
-| **Как модулю вызвать другой модуль?** | MCP определяет роли клиента и сервера, транспорт и вызов инструмента. | Модуль открывает отдельное MCP-соединение с Gateway и вызывает `mmp_invoke` для объявленной зависимости. |
-| **Что происходит при замене реализации?** | Хост может выбирать серверы и инструменты по правилам приложения. | Хост проверяет совпадение возможности и обоих контрактов, а также допустимость прав доступа и побочных эффектов. |
-| **Как контролируется вложенный вызов?** | MCP задаёт обмен сообщениями и механизм отмены. | Профиль добавляет правила привязки контекста к вызывающему, дедлайна, глубины вызовов, дедупликации и типизированных ошибок операции. |
-| **Кто определяет порядок шагов?** | Хост или приложение. | Порядок, параллелизм, повтор по условию и ожидание человека остаются решениями приложения. |
+| Discovery | MCP servers describe tools, resources and other features. | A module descriptor adds provided and required capabilities, contract IDs, permissions and effect declarations. |
+| Data | MCP tools describe arguments and can describe structured output. | Both contract IDs are required. The Host validates data against a trusted catalog with versioned schemas, semantics and examples. |
+| Module calls | MCP supplies transports, request envelopes and tool calls. | A module opens a separate connection to a Host Gateway and invokes `mmp_invoke` using a declared dependency. |
+| Replacement | An application can choose its tools and servers. | Compatible suppliers match the capability and both contract IDs. Policy also checks permissions and side effects. |
+| Execution | MCP supplies cancellation and error mechanisms. | MMP adds rules for caller-bound contexts, chain depth and cycles, deadlines, operation outcomes and deduplication. |
 
-**Зачем контракту отдельный идентификатор?** Схема с полем `amount` целочисленного типа сама по себе не объясняет, указаны рубли или копейки. В каталоге MMP это [два разных контракта](contracts/README.md). Для перехода между ними приложение явно подключает адаптер. Независимые реализации с одним контрактом обязуются одинаково интерпретировать данные.
+For example, a schema may say that `amount` is an integer. An MMP contract also says whether it represents rubles or kopecks. Those versions have different IDs. An application that needs to convert them calls an explicit adapter. [Contract catalog](contracts/README.md)
 
-Обычного MCP достаточно, если приложению нужно вызвать известный инструмент на выбранном сервере. Правила MMP становятся полезны, когда модули должны сами запрашивать зависимости, а хост должен уметь проверять совместимость и менять поставщика.
-
-## Как проходит вызов
+MCP supplies the wire protocol and official SDKs. The application decides the graph, scheduling, user checkpoints, interfaces and model connections. [MCP specification](https://modelcontextprotocol.io/specification/2026-07-28) · [MCP repository](https://github.com/modelcontextprotocol/modelcontextprotocol)
 
 ```mermaid
 sequenceDiagram
-    participant H as Приложение и Reference Host
-    participant A as Координатор · TypeScript
-    participant G as Gateway хоста
-    participant B as Исследователь · Python
-    H->>A: MCP tools/call по stdio
-    A->>G: MCP tools/call для mmp_invoke по HTTP
-    Note over G: Проверяет вызывающего, зависимость и контракты
-    G->>B: MCP tools/call по stdio
-    B-->>G: structuredContent
-    G-->>A: outputContract и result
-    A-->>H: Результат координатора
+    participant H as Host
+    participant A as Module A
+    participant G as Host Gateway
+    participant B as Module B
+    H->>A: MCP tools/call
+    A->>G: MCP tools/call with mmp_invoke
+    Note over G: Validate caller, policy and exact contracts
+    G->>B: MCP tools/call
+    B-->>G: Structured result
+    G-->>A: Contract ID and validated data
+    A-->>H: Module result
 ```
 
-1. **Допуск.** Хост сверяет идентичность, версию и контрольные суммы локального пакета, затем проверяет дескриптор, список инструментов и схемы.
-2. **Маршрутизация.** Gateway проверяет права непосредственного вызывающего и ищет поставщика по тройке `capability`, `inputContract`, `outputContract`. Выбор сохраняется на время исходного вызова.
-3. **Исполнение.** Хост передаёт контекст вызова и проверяет успешный ответ по доверенной схеме. Профиль ограничивает глубину вызовов, обнаруживает циклы и определяет поведение при дедлайне, отмене и повторе. [Спецификация исполнения](spec/0.1.0/execution.md)
+## Quickstart
 
-> На схеме показан транспорт Reference Host. В примере процессы модулей подключены по stdio, а их исходящие обращения к Gateway идут через Streamable HTTP на loopback.
-
-## Быстрый старт
-
-Установите Node.js **22.13 или новее**, Python **3.11 или новее** и [uv](https://docs.astral.sh/uv/).
+Install Node.js **22.13+**, Python **3.11+** and [uv](https://docs.astral.sh/uv/), then run from a checkout:
 
 ```sh
-git clone https://github.com/artemnoor/makora-module-protocol.git
-cd makora-module-protocol
 npm ci
 uv sync --locked
 npm run demo
 ```
 
-Демо выводит результаты до и после замены исследователя, цепочки вызовов, идентификаторы корреляции и задержки. По умолчанию оно выполняется без AI. При необходимости исследовательский модуль можно подключить к сервису генерации через переменную `MMP_RESEARCH_PROVIDER`. Сервис принимает `POST` с `{"topic":"..."}` и возвращает `{"findings":["..."]}`. Выбор модели и её учётные данные остаются на стороне сервиса.
+The coordinator starts two research calls in parallel. A Python planner calls a TypeScript reviewer through the Gateway. The Host repeats the same request after substituting a Python supplier. The demo uses deterministic inputs and prints both results and call traces.
 
-### Интерактивная лаборатория
-
-После базовой установки подготовьте независимый Python-пакет и запустите приложение.
+To start the browser-based Universality Lab:
 
 ```sh
 uv sync --locked --project demos/universality/third-party
 npm run demo:universality
 ```
 
-Откройте локальный адрес из терминала. Введите задачу и выберите одну из трёх композиций. Интерфейс покажет цепочку вызовов и промежуточный результат, а затем примет решение о следующем шаге через форму модуля. В переработанной композиции меняются порядок операций, поставщики и форма. Третья композиция работает целиком без AI. По умолчанию для воспроизводимости используется контрольный AI-адаптер. Настройка авторизованных живых моделей описана в [инструкции лаборатории](demos/universality/README.md).
+The Lab shows the running graph, intermediate outputs and a form supplied by a module. Choose a configuration to change providers, omit an optional step or run without AI. The [Lab guide](demos/universality/README.md) covers the controlled and live model modes.
 
-## Как добавить свой модуль
+## Build and integrate
 
-1. Выберите существующие [семантические контракты](spec/0.1.0/contracts.md) или опишите собственные схемы, смысл полей и примеры входа и выхода.
-2. Объявите операции, их контракты и зависимости в [дескрипторе](spec/0.1.0/descriptor.md). Для TypeScript есть обёртка `createModule`. Отдельный Python-пакет показывает подключение через официальный MCP SDK и общую схему.
-3. Зарегистрируйте версию, контрольные суммы и разрешения в конфигурации хоста. Если две реализации предоставляют одну возможность с теми же контрактами, хост может переключить поставщика. [Пример конфигурации](examples/config.mjs)
+- [Create a module or Host](docs/developer-guide.md) with contract declarations, nested calls, sample configuration and a conformance checklist.
+- [Install the SDK tarball](docs/developer-guide.md#install-the-sdk) in a separate Node project. It exports the TypeScript SDK, Reference Host and protocol JSON Schemas.
+- Start with the [TypeScript and Python templates](templates/) or inspect the independent providers in the [external release experiment](experiments/release/README.md).
 
-Готовые отправные точки — [дескриптор исследователя](examples/descriptors/research.json), [TypeScript SDK](sdk/typescript/index.ts) и [независимый Python-пакет](demos/universality/third-party/README.md).
+The [normative specification](spec/0.1.0/overview.md) and [JSON Schemas](schemas/0.1.0/) define the wire contract. The [Reference Host](reference/host/) runs pinned local packages over private stdio and an authenticated loopback Gateway. Ordinary MCP clients can use public read-only tools under the server's policy. Deduplication in the Reference Host is process-local. A deployment that accepts untrusted programs must provide OS isolation. [Security policy](SECURITY.md)
 
-## Что входит в репозиторий
-
-| Раздел | Содержание |
-| --- | --- |
-| [Спецификация](spec/0.1.0/overview.md) и [JSON Schema](schemas/0.1.0/) | Нормативные правила и машиночитаемые схемы дескриптора, вызова, контекста и ошибки. |
-| [Каталог контрактов](contracts/) | Версионированные схемы, определения смысла и проверочные примеры. |
-| [SDK](sdk/typescript/) и [Reference Host](reference/host/) | Привязка к официальному MCP SDK, допуск модулей, Gateway, политика доступа и состояние вызовов. |
-| [Примеры](examples/) и [Лаборатория](demos/universality/) | Межъязыковое демо, переподключение поставщиков, живые и контрольные AI-адаптеры и браузерный Harness. |
-| [Тесты](conformance/) и [транспортный Spike](spike/README.md) | Проверки совместимости, политик, дедлайнов, отмены и межъязыковых вызовов. |
-
-## Воспроизводимые проверки
+## Verify and contribute
 
 ```sh
 npm run verify:release
-uv sync --locked --project demos/universality/third-party
-npx playwright install chromium
-npm run verify:universality
+npm run verify:external
 ```
 
-Базовый набор проверяет контрактные, транспортные и защитные свойства. Лаборатория прогоняет семь типов композиции, параллельные запуски и пользовательские сценарии Chromium. Живой AI проверяется отдельной командой с авторизованным подключением. [Результаты проверки лаборатории](demos/universality/REPORT.md)
+The external verification builds the SDK into a tarball and installs it in a new workspace outside the checkout. It runs independently authored Node and Python providers and multiple JSON graphs through the installed public API. The [release report](docs/release-0.1.0.md) links the separate transport, browser and live model checks.
 
-Отдельный [Spike](spike/README.md) воспроизводит транспортные проверки TypeScript и Python. Версии MCP, MMP, пакета модуля и семантического контракта учитываются независимо. [Матрица совместимости](spec/0.1.0/versioning.md) · [Матрица требований](REQUIREMENTS.md)
-
-## Границы профиля
-
-- **Совместимость с MCP.** MMP 0.1 использует MCP 2026-07-28. Обычный MCP-клиент может вызвать публичный инструмент только для чтения, если сервер его предоставляет. Для зависимостей и проверяемой замены поставщика нужен хост с поддержкой MMP.
-- **Оркестрация и интерфейс.** Состояние процесса, граф, подключение моделей и форма принадлежат приложению. Лаборатория использует способ объявления ресурса из MCP Apps и собственный мост событий для продолжения.
-- **Безопасность.** Reference Host запускает доверенные локальные пакеты, применяет правила default-deny и привязывает контекст к аутентифицированному модулю. Для запуска недоверенного кода нужна изоляция на уровне ОС. [Модель доверия](SECURITY.md)
-- **Статус.** Это черновик 0.1.0 с демонстрационным пространством имён `org.example`. В Reference Host дедупликация действует в пределах процесса. Браузерные запуски лаборатории хранятся в памяти.
-
-## Участие и лицензия
-
-Предложения к контрактам и профилю можно открыть в [Issues](https://github.com/artemnoor/makora-module-protocol/issues). Порядок изменений и проверок описан в [CONTRIBUTING.md](CONTRIBUTING.md).
-
-Проект распространяется по лицензии [Apache 2.0](LICENSE).
+[Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Apache 2.0](LICENSE)

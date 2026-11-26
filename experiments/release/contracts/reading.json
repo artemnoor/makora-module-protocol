@@ -1,0 +1,60 @@
+{
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:mmp:independent:reading:1.0.0",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "source",
+      "amount",
+      "severity",
+      "notes"
+    ],
+    "properties": {
+      "source": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 160
+      },
+      "amount": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 10000
+      },
+      "severity": {
+        "enum": [
+          "pending",
+          "normal",
+          "review"
+        ]
+      },
+      "notes": {
+        "type": "array",
+        "maxItems": 16,
+        "items": {
+          "type": "string",
+          "maxLength": 240
+        }
+      }
+    }
+  },
+  "semantics": "A measurement count and its review disposition. Amount is an integer count of samples, with a maximum of 10000.",
+  "fixtures": {
+    "valid": [
+      {
+        "source": " sensor alpha ",
+        "amount": 82,
+        "severity": "pending",
+        "notes": []
+      }
+    ],
+    "invalid": [
+      {
+        "source": " sensor alpha ",
+        "amount": -1,
+        "severity": "pending",
+        "notes": []
+      }
+    ]
+  }
+}

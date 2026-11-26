@@ -1,22 +1,31 @@
 {
-  "name": "makora-module-protocol",
+  "name": "@artemnoor/mmp",
   "version": "0.1.0",
-  "private": true,
+  "description": "Makora Module Protocol TypeScript SDK and reference host for MCP 2026-07-28",
   "license": "Apache-2.0",
   "type": "module",
+  "repository": "github:artemnoor/makora-module-protocol",
+  "files": ["dist/sdk/typescript", "dist/reference/host", "schemas/0.1.0", "spec/0.1.0", "docs", "templates", "README.ru.md"],
+  "exports": {
+    ".": { "types": "./dist/sdk/typescript/index.d.ts", "import": "./dist/sdk/typescript/index.js" },
+    "./host": { "types": "./dist/reference/host/index.d.ts", "import": "./dist/reference/host/index.js" },
+    "./schemas/*": "./schemas/0.1.0/*.schema.json"
+  },
   "engines": {
     "node": ">=22.13"
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit && uv run --locked mypy --check-untyped-defs --follow-imports=silent --explicit-package-bases examples/module.py spike/module.py demos/universality/modules demos/universality/third-party/src",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit && uv run --locked mypy --check-untyped-defs --follow-imports=silent --explicit-package-bases examples/module.py spike/module.py demos/universality/modules demos/universality/third-party/src templates/python experiments/release/python-provider/src",
     "test": "npm run build && node --test conformance/*.test.mjs",
-    "lint": "eslint . && uv run --locked ruff check examples spike/module.py demos/universality && npm run lint:architecture",
+    "lint": "eslint . && uv run --locked ruff check examples spike/module.py demos/universality templates experiments/release && npm run lint:architecture",
     "lint:architecture": "node --test conformance/architecture.test.mjs",
     "verify:release": "npm run lint && npm run typecheck && npm test",
     "demo": "npm run build && node examples/demo.mjs",
     "demo:universality": "npm run build && node demos/universality/server.mjs",
     "verify:universality": "npm run build && node --test demos/universality/tests/*.test.mjs",
+    "verify:external": "node experiments/release/run.mjs",
     "verify:universality:live": "npm run build && node demos/universality/live.mjs"
   },
   "dependencies": {

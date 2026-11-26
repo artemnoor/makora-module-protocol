@@ -1,0 +1,15 @@
+{
+  "name": "org-independent-node-provider",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Independent MMP 0.1 Node provider fixture",
+  "scripts": {
+    "start": "node ./provider.mjs",
+    "check:syntax": "node --check ./provider.mjs"
+  },
+  "dependencies": {
+    "@artemnoor/mmp": "file:../artemnoor-mmp-0.1.0.tgz",
+    "@modelcontextprotocol/server": "^2.4.0"
+  }
+}

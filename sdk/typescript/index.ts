@@ -4,10 +4,10 @@ import { fromJsonSchema, McpServer } from "@modelcontextprotocol/server";
 
 export const revision = "2026-07-28";
 export const profile = "0.1.0";
-export const extension = "org.example/mmp";
-export const contextKey = "org.example/mmp-context";
-export const grantKey = "org.example/mmp-grant";
-export const errorKey = "org.example/mmp-error";
+export const extension = "io.github.artemnoor/mmp";
+export const contextKey = "io.github.artemnoor/mmp-context";
+export const grantKey = "io.github.artemnoor/mmp-grant";
+export const errorKey = "io.github.artemnoor/mmp-error";
 export type JsonObject = Record<string, unknown>;
 export type Triple = { capability: string; inputContract: string; outputContract: string };
 export type Invoke = Triple & { arguments: JsonObject; idempotencyKey?: string };

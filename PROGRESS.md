@@ -23,3 +23,9 @@ Fresh source copies passed on Windows and Ubuntu with Node 22.13.0 and Python 3.
 The final review covered package and schema trust, default deny, branch-scoped cancellation, provider pins, retained outcomes and the tests behind these behaviors. Earlier independent research covered upstream API compatibility and the R2 requirements matrix.
 
 Local MMP 0.1 draft acceptance is complete. See the repository's Actions tab for hosted CI results. The stable namespace and release tag are separate release actions. The Apache-2.0 text covers this repository. Upstream SDKs are installed as dependencies. The upstream sample smoke runs used scratch copies.
+
+## Release candidate stabilization
+
+The release namespace was verified against ownership of the canonical GitHub account. Two independent providers and both starter modules passed installation and execution outside the checkout. The documented release scope passed 24 conformance and architecture checks, 14 Universality Lab checks, 7 Spike checks and a separate authorized two-model run.
+
+The two SDK archives built from the working and clean Windows copies matched at SHA-256 `66161966bd512d6fb64a4364bb9f352c5fc0a5181d012f895adf62ff191afa1d`. The standalone Python provider wheel installed in a fresh Python 3.12 environment. See the [release report](docs/release-0.1.0.md). These checks were local.

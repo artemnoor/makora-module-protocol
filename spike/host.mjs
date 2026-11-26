@@ -42,7 +42,7 @@ export async function startHost() {
       return await processes.get(id).callTool({
         name: tool,
         arguments: args,
-        _meta: { [callContext]: token, "org.example/mmp-grant": grants.get(id) },
+        _meta: { [callContext]: token, "io.github.artemnoor/mmp-grant": grants.get(id) },
       }, { signal });
     } finally {
       active.delete(token);
