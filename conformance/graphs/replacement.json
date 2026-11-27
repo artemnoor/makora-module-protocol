@@ -1,0 +1,16 @@
+{
+  "steps": [
+    {
+      "id": "research",
+      "after": [],
+      "invoke": {
+        "capability": "org.example/research",
+        "inputContract": "urn:mmp:example:task:1.0.0",
+        "outputContract": "urn:mmp:example:report:1.0.0"
+      },
+      "arguments": {
+        "topic": "replacement"
+      }
+    }
+  ]
+}

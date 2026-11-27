@@ -1,0 +1,38 @@
+{
+  "steps": [
+    {
+      "id": "convert",
+      "after": [],
+      "invoke": {
+        "capability": "org.example/amount.convert",
+        "inputContract": "urn:mmp:example:amount-rub-major:1.0.0",
+        "outputContract": "urn:mmp:example:amount-rub-minor:1.0.0"
+      },
+      "arguments": {
+        "amount": 3,
+        "currency": "RUB",
+        "unit": "major"
+      }
+    },
+    {
+      "id": "accept",
+      "after": [
+        "convert"
+      ],
+      "invoke": {
+        "capability": "org.example/amount.accept",
+        "inputContract": "urn:mmp:example:amount-rub-minor:1.0.0",
+        "outputContract": "urn:mmp:example:amount-rub-minor:1.0.0"
+      },
+      "arguments": {
+        "$ref": "convert"
+      },
+      "when": {
+        "ref": {
+          "$ref": "input.run"
+        },
+        "equals": true
+      }
+    }
+  ]
+}

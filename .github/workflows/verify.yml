@@ -36,6 +36,10 @@ jobs:
         working-directory: spike
       - run: npm run check
         working-directory: spike
+      - run: uv sync --locked --project python-host --python 3.12
+      - run: npm run verify:hosts
+      - if: runner.os == 'Linux'
+        run: npm run verify:external:hosts
 
   universality:
     runs-on: ubuntu-latest

@@ -2,10 +2,10 @@ import { deepEqual, equal } from "node:assert/strict";
 import { once } from "node:events";
 import { createServer } from "node:http";
 import { test } from "node:test";
-import { createConfig, moduleId, query } from "../examples/config.mjs";
-import { startHost } from "../dist/reference/host/index.js";
+import { createConfig, moduleId, query } from "./config.mjs";
+import { label, start } from "./harness.mjs";
 
-test("a replaceable inference adapter preserves the module contract on a real MCP call", async () => {
+test(label("a replaceable inference adapter preserves the module contract on a real MCP call"), async () => {
   const requests = [];
   const service = createServer(async (req, res) => {
     const parts = [];
@@ -22,7 +22,7 @@ test("a replaceable inference adapter preserves the module contract on a real MC
     config.packages[0].moduleEnvironment = {
       MMP_RESEARCH_PROVIDER: `http://127.0.0.1:${service.address().port}`,
     };
-    host = await startHost(config);
+    host = await start(config);
     const result = await host.call("host:demo", {
       ...query("research", "task", "report"), arguments: { topic: "test topic" },
     });

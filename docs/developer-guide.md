@@ -6,25 +6,82 @@ MMP 0.1 gives applications a common way to connect independently versioned modul
 
 ## Install the SDK
 
-Build the package in the MMP checkout and install the resulting archive in an independent Node.js 22.13+ project:
+Once MMP 0.1.0 is published, install it from the public npm registry in your own Node.js 22.13+ project:
 
 ```sh
+npm install @artemnoor/mmp@0.1.0
+```
+
+Alternatively, build the archive in a checkout and install it in a separate Node.js 22.13+ project:
+
+```sh
+# in the MMP checkout
 npm ci
 npm pack
 ```
 
 ```sh
-npm init -y
+# in the separate project
 npm install /path/to/artemnoor-mmp-0.1.0.tgz
 ```
 
+The archive fallback is a local install; it does not publish the package. A registry install uses `https://registry.npmjs.org/`; the consumer check below does not fall back to a local archive if that request fails.
+
 | Import | Public surface |
 | --- | --- |
-| `@artemnoor/mmp` | Module SDK, wire identifiers, result helpers and TypeScript types |
+| `@artemnoor/mmp` | Module SDK, `revision`, `profile`, `extension`, `readProtocolSchema`, wire identifiers, result helpers and TypeScript types |
 | `@artemnoor/mmp/host` | `startHost`, `HostConfig`, policy types and the Reference Host |
-| `@artemnoor/mmp/schemas/invoke` | Invoke JSON Schema. The other names are `module-descriptor`, `execution-context` and `error`. |
+| `@artemnoor/mmp/schemas/invoke` | Invoke JSON Schema. `module-descriptor`, `execution-context` and `error` are also exported. |
 
-TypeScript uses the official MCP stdio server. Python can implement the wire using the official `mcp==2.3.0` SDK, as the template does.
+The package is the only MMP import a consumer needs. A TypeScript module also imports the official MCP stdio server, `@modelcontextprotocol/server@2.4.0`, as the starter does; it does not import files from the MMP checkout. This minimal module uses the same public surface as the [TypeScript starter](../templates/typescript/server.ts) and the `contract.json` artifact described in the next section:
+
+```ts
+import { readFileSync } from "node:fs";
+import { createModule, structured, type Descriptor, type JsonObject } from "@artemnoor/mmp";
+import { serveStdio } from "@modelcontextprotocol/server/stdio";
+
+const { schema } = JSON.parse(
+  readFileSync(new URL("../contract.json", import.meta.url), "utf8"),
+) as { schema: JsonObject & { $id: string } };
+
+const descriptor: Descriptor = {
+  id: "org.example.echo",
+  publisher: "org.example",
+  version: "1.0.0",
+  mmpVersion: "0.1.0",
+  description: "Return a message unchanged",
+  requires: [],
+  operations: [{
+    capability: "org.example/echo",
+    inputContract: schema.$id,
+    outputContract: schema.$id,
+    tool: "echo",
+    effects: "read-only",
+    permissions: [],
+    execution: "sync",
+    idempotency: { mode: "natural" },
+  }],
+};
+
+serveStdio(() => createModule(descriptor, {
+  echo: { inputSchema: schema, outputSchema: schema, run: input => structured(input) },
+}, {
+  gateway: process.env.MMP_GATEWAY,
+  credential: process.env.MMP_CREDENTIAL,
+  hostGrant: process.env.MMP_HOST_GRANT,
+}));
+```
+
+Compile it to `dist/server.js` with the installed compiler, for example `npx tsc server.ts --target ES2023 --module NodeNext --strict --outDir dist`. TypeScript uses the official MCP stdio server. Python can implement the wire using the official `mcp==2.3.0` SDK, as the template does.
+
+Verify the installed package from outside the checkout:
+
+```sh
+node experiments/release/sdk-consumer.mjs /path/to/artemnoor-mmp-0.1.0.tgz
+node experiments/release/sdk-consumer.mjs @artemnoor/mmp@0.1.0
+```
+
+The script creates an empty temporary project, installs the package and the pinned compiler, compiles its TypeScript module under strict settings against the installed declarations, imports and compares all four schema exports, then starts the Reference Host and calls a fresh ESM module. It exits nonzero on failure, imports nothing from the checkout, never publishes and never falls back from the public registry to a tarball. [Script](../experiments/release/sdk-consumer.mjs)
 
 ## Define the contract and descriptor
 
@@ -82,7 +139,7 @@ Publish an MCP resource or configure a UI component in your Harness. The browser
 
 ## Implement a Host and check conformance
 
-Implement against the [specification](../spec/0.1.0/overview.md), the four protocol schemas and upstream MCP. Use the following checks as a starting point:
+Implement against the [specification](../spec/0.1.0/overview.md), the four protocol schemas and upstream MCP. The [Host implementer guide](host-implementer.md) covers the language-neutral boundaries and records compatibility evidence separately. Use the following checks as a starting point:
 
 | Boundary | Observable result |
 | --- | --- |
@@ -92,4 +149,11 @@ Implement against the [specification](../spec/0.1.0/overview.md), the four proto
 | Interoperability | Complete ordinary MCP read-only access, nested cross-language calls, a replacement with the same triple and a full run without AI. |
 | Trust | Enforce policy on the immediate authenticated caller. Bind local HTTP to loopback and validate the request origin. Isolate untrusted programs at the OS boundary. |
 
-Run the [black-box tests](../conformance/), the [Spike](../spike/README.md) and `npm run verify:external` in an MMP checkout. The shipped suite targets the Reference Host and is a source of test vectors for a different implementation. Keep a record of results by protocol revision and expose any implementation-specific features, such as durable deduplication, explicitly.
+From an MMP checkout run the shared black-box suite against both Hosts:
+
+```sh
+npm run verify:hosts
+npm run verify:external:hosts
+```
+
+`verify:hosts` runs the same cases through a thin TypeScript adapter around `startHost` and a bridge to the [Python Host](https://github.com/artemnoor/makora-module-protocol/blob/main/python-host/README.md); a missing Python Host or dependency fails the run. `verify:external:hosts` runs the same JSON graphs and modules through both Hosts in an isolated workspace. The [shared cases](https://github.com/artemnoor/makora-module-protocol/blob/main/conformance/README.md) use only the normative wire shapes and public Host API, never private Host internals. Also run the [Spike](../spike/README.md) and `npm run verify:external`. Current results are recorded in the [release report](release-0.1.0.md); keep your own record by protocol revision and expose any implementation-specific features, such as durable deduplication, explicitly.

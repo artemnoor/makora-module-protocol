@@ -1,0 +1,30 @@
+{
+  "steps": [
+    {
+      "id": "left",
+      "after": [],
+      "invoke": {
+        "capability": "org.example/research",
+        "inputContract": "urn:mmp:example:task:1.0.0",
+        "outputContract": "urn:mmp:example:report:1.0.0"
+      },
+      "arguments": {
+        "topic": "overlap-left",
+        "waitMs": 400
+      }
+    },
+    {
+      "id": "right",
+      "after": [],
+      "invoke": {
+        "capability": "org.example/research",
+        "inputContract": "urn:mmp:example:task:1.0.0",
+        "outputContract": "urn:mmp:example:report:1.0.0"
+      },
+      "arguments": {
+        "topic": "overlap-right",
+        "waitMs": 400
+      }
+    }
+  ]
+}

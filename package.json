@@ -19,13 +19,16 @@
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit && uv run --locked mypy --check-untyped-defs --follow-imports=silent --explicit-package-bases examples/module.py spike/module.py demos/universality/modules demos/universality/third-party/src templates/python experiments/release/python-provider/src",
     "test": "npm run build && node --test conformance/*.test.mjs",
-    "lint": "eslint . && uv run --locked ruff check examples spike/module.py demos/universality templates experiments/release && npm run lint:architecture",
+    "verify:hosts": "npm run build && node conformance/verify.mjs",
+    "verify:hosts:typescript": "npm run build && node conformance/verify.mjs --hosts=typescript",
+    "lint": "eslint . && uv run --locked ruff check examples spike/module.py demos/universality templates experiments/release conformance/python-bridge.py && npm run lint:architecture",
     "lint:architecture": "node --test conformance/architecture.test.mjs",
     "verify:release": "npm run lint && npm run typecheck && npm test",
     "demo": "npm run build && node examples/demo.mjs",
     "demo:universality": "npm run build && node demos/universality/server.mjs",
     "verify:universality": "npm run build && node --test demos/universality/tests/*.test.mjs",
     "verify:external": "node experiments/release/run.mjs",
+    "verify:external:hosts": "node experiments/release/run.mjs --hosts=typescript,python",
     "verify:universality:live": "npm run build && node demos/universality/live.mjs"
   },
   "dependencies": {

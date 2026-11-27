@@ -58,10 +58,41 @@ npm run demo:universality
 
 The Lab shows the running graph, intermediate outputs and a form supplied by a module. Choose a configuration to change providers, omit an optional step or run without AI. The [Lab guide](demos/universality/README.md) covers the controlled and live model modes.
 
+## Install the SDK
+
+Once the release is available in the public npm registry, install it in any Node.js 22.13+ project:
+
+```sh
+npm install @artemnoor/mmp@0.1.0
+```
+
+While publication is pending, build the archive in a checkout and install it in a separate project:
+
+```sh
+# in the MMP checkout
+npm ci
+npm pack
+```
+
+```sh
+# in the separate project
+npm install /path/to/artemnoor-mmp-0.1.0.tgz
+```
+
+Both forms expose `@artemnoor/mmp`, `@artemnoor/mmp/host` and the four JSON Schemas under `@artemnoor/mmp/schemas/`. The package carries the SDK, Reference Host, schemas, templates and guides. Verify a clean install outside the checkout:
+
+```sh
+node experiments/release/sdk-consumer.mjs /path/to/artemnoor-mmp-0.1.0.tgz
+node experiments/release/sdk-consumer.mjs @artemnoor/mmp@0.1.0
+```
+
+The registry mode uses `https://registry.npmjs.org/` only, fails instead of falling back to a local archive, and never publishes. [Developer guide](docs/developer-guide.md#install-the-sdk) · [Host implementer guide](docs/host-implementer.md)
+
 ## Build and integrate
 
 - [Create a module or Host](docs/developer-guide.md) with contract declarations, nested calls, sample configuration and a conformance checklist.
-- [Install the SDK tarball](docs/developer-guide.md#install-the-sdk) in a separate Node project. It exports the TypeScript SDK, Reference Host and protocol JSON Schemas.
+- [Install the SDK](#install-the-sdk) in a separate Node project. It exports the TypeScript SDK, Reference Host and protocol JSON Schemas, with an archive fallback.
+- [Implement a Host](docs/host-implementer.md) against the normative transport, trust, identity, admission and execution rules. Compatibility evidence is reported separately from this guide.
 - Start with the [TypeScript and Python templates](templates/) or inspect the independent providers in the [external release experiment](experiments/release/README.md).
 
 The [normative specification](spec/0.1.0/overview.md) and [JSON Schemas](schemas/0.1.0/) define the wire contract. The [Reference Host](reference/host/) runs pinned local packages over private stdio and an authenticated loopback Gateway. Ordinary MCP clients can use public read-only tools under the server's policy. Deduplication in the Reference Host is process-local. A deployment that accepts untrusted programs must provide OS isolation. [Security policy](SECURITY.md)

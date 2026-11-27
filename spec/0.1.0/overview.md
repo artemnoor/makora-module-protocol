@@ -12,4 +12,4 @@ The keywords MUST, SHOULD and MAY have the meaning in BCP 14. The schemas under 
 - [Security](security.md)
 - [Versioning](versioning.md)
 
-MMP leaves graph construction, retries, scheduling and handling of partial results to the application. Module internals may use ordinary code or a model. Sync MMP requires the standard MCP success result and an explicit error profile.
+The Host owns admission, policy, routing and execution state for an invocation. Graph policy — which operations to call, in what order, on what data and how to handle partial results — belongs to the application, not to the Host or Gateway. MMP therefore leaves graph construction, retries, scheduling and partial-result handling to the application. Module internals may use ordinary code or a model. Sync MMP requires the standard MCP success result and an explicit error profile.

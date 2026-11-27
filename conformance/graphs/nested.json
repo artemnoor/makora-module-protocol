@@ -1,0 +1,16 @@
+{
+  "steps": [
+    {
+      "id": "coordinate",
+      "after": [],
+      "invoke": {
+        "capability": "org.example/coordinate",
+        "inputContract": "urn:mmp:example:task:1.0.0",
+        "outputContract": "urn:mmp:example:report:1.0.0"
+      },
+      "arguments": {
+        "topic": "nested graph"
+      }
+    }
+  ]
+}

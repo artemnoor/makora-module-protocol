@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mmp:schema:execution-context:0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "correlationId",
+    "deadline",
+    "maxDepth",
+    "chain"
+  ],
+  "properties": {
+    "correlationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "deadline": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "maxDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "chain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)+/[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$"
+      },
+      "maxItems": 64
+    }
+  }
+}
