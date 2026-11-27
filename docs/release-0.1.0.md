@@ -1,14 +1,16 @@
-# MMP 0.1.0 release candidate
+# MMP 0.1.0 release report
 
 [Developer guide](developer-guide.md) · [Руководство на русском](developer-guide.ru.md) · [Changelog](../CHANGELOG.md)
 
 ## Distribution and migration
 
-Local archive verification passed with a strict TypeScript build, all four exported schemas and an SDK module invoked in a clean project. The public registry still returns `404` for `@artemnoor/mmp@0.1.0`. The publish attempt returned `E403` because the npm owner account requires two-factor authentication for publishing. Registry installation and the same consumer smoke test follow successful publication.
+The version [@artemnoor/mmp@0.1.0](https://www.npmjs.com/package/@artemnoor/mmp/v/0.1.0) is published on the public npm registry. The published tarball was built from the SDK sources and documentation in commit `3b06224`. Its SHA-256 is `8821925163010e526a411ce3ce1ced2c0ac0fa62bb10b3f36f73abc643f0edcb`.
+
+A clean project installed `@artemnoor/mmp@0.1.0` from the public registry without credentials. The lockfile integrity matched the published archive. The registry consumer check compiled a new module in strict TypeScript mode, imported all four JSON Schema exports and invoked the module using the installed SDK and Reference Host. The consumer imported no files from the MMP checkout.
 
 The wire profile uses MCP 2026-07-28 and the extension identifier `io.github.artemnoor/mmp`. The same prefix is used for context, protected-tool grant and error metadata. The authenticated GitHub account `artemnoor` was verified as owner and administrator of the canonical repository. GitHub assigns `<owner>.github.io` to that account's Pages namespace. The protocol uses the corresponding reverse-DNS name, without claiming a separately registered domain or activating a Pages site. [GitHub Pages naming](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#types-of-github-pages-sites) · [MCP metadata rules](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#general-fields)
 
-Draft modules using `org.example/mmp` must update their extension and MMP metadata keys. Application capability and contract identifiers remain unchanged. The TypeScript distribution is `@artemnoor/mmp@0.1.0`; the tarball carries the public SDK, Reference Host, JSON Schemas, templates and guides. Python providers can use the official Python MCP SDK. Package: [@artemnoor/mmp](https://www.npmjs.com/package/@artemnoor/mmp). Publication procedure: publish the prepared tarball with `npm publish`, then tag the release and publish the GitHub release as separate operator steps. This record does not assert registry availability.
+Draft modules using `org.example/mmp` must update their extension and MMP metadata keys. Application capability and contract identifiers remain unchanged. The npm package includes the public TypeScript SDK, Reference Host, JSON Schemas, templates and guides. Python providers can use the official Python MCP SDK.
 
 ## Findings and changes
 

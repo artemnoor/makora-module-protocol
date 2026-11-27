@@ -1,6 +1,6 @@
 # Makora Module Protocol
 
-**MMP 0.1.0 · Release candidate · MCP 2026-07-28**
+**MMP 0.1.0 · MCP 2026-07-28**
 
 Makora Module Protocol is an open profile of the Model Context Protocol for independently developed software modules. A module declares the capabilities it provides and the ones it needs. A Host resolves each request using a capability identifier and the exact versions of its input and output contracts.
 
@@ -60,13 +60,13 @@ The Lab shows the running graph, intermediate outputs and a form supplied by a m
 
 ## Install the SDK
 
-Once the release is available in the public npm registry, install it in any Node.js 22.13+ project:
+Install [@artemnoor/mmp@0.1.0](https://www.npmjs.com/package/@artemnoor/mmp/v/0.1.0) in any Node.js 22.13+ project:
 
 ```sh
 npm install @artemnoor/mmp@0.1.0
 ```
 
-While publication is pending, build the archive in a checkout and install it in a separate project:
+To test a local build, pack the SDK in a checkout and install the archive in a separate project:
 
 ```sh
 # in the MMP checkout

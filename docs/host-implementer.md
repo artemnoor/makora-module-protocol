@@ -1,18 +1,18 @@
 # Implement an MMP Host
 
-[Specification](../spec/0.1.0/overview.md) · [Developer guide](developer-guide.md) · [Release candidate report](release-0.1.0.md)
+[Specification](../spec/0.1.0/overview.md) · [Developer guide](developer-guide.md) · [Release report](release-0.1.0.md)
 
 This guide is informative. The [specification](../spec/0.1.0/overview.md) and the [four JSON Schemas](../schemas/0.1.0/) are normative. It describes the behavior a Host must implement and the evidence needed to claim compatibility. It makes no assumption about the Host's programming language, runtime, deployment model or use of AI.
 
 ## Status and evidence
 
-MMP 0.1.0 is a **release candidate**. It uses MCP 2026-07-28 and the extension identifier `io.github.artemnoor/mmp`. The TypeScript distribution is `@artemnoor/mmp@0.1.0`. Install it with `npm install @artemnoor/mmp@0.1.0` or follow the archive fallback in the [developer guide](developer-guide.md#install-the-sdk).
+MMP 0.1.0 uses MCP 2026-07-28 and the extension identifier `io.github.artemnoor/mmp`. Install the TypeScript distribution with `npm install @artemnoor/mmp@0.1.0`. The [developer guide](developer-guide.md#install-the-sdk) also covers testing a local archive.
 
 Compatibility evidence is reported separately from this guide:
 
 - The TypeScript Reference Host passes the shipped conformance suite and the transport Spike. The [release report](release-0.1.0.md) records the results and the tested topology.
 - Independently authored Node and Python providers ran against the installed SDK and the public Host API in a directory outside the checkout. The [experiment](../experiments/release/README.md) contains the reproduction driver.
-- A clean consumer check installs the package into an empty project, compiles a strict TypeScript module from the public exports and calls it through the Reference Host. Run `node experiments/release/sdk-consumer.mjs <tarball>`.
+- The public registry consumer check installs the package into an empty project, compiles a strict TypeScript module from the public exports and calls it through the Reference Host. Run `node experiments/release/sdk-consumer.mjs @artemnoor/mmp@0.1.0`.
 - The TypeScript and Python Host conformance suites passed on Windows, including the bridge test. The [release report](release-0.1.0.md) records the results.
 
 Use the evidence as a record of tested behavior, not as a claim that every deployment or every language binding has been verified. Record your own results by MCP revision, MMP profile and package pins.

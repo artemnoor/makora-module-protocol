@@ -13,5 +13,6 @@
 - Clarified deduplication lookup by authenticated caller, exact triple and key; stored canonical arguments and pinned provider ID/version/tool; required key for `deduplicated`; replacement conflicts during retention; and JSON value equality.
 - Clarified authority and outcome for HTTP rejection, pre-dispatch rejection, downstream provider errors and invalid output, without adding retry or argument-coercion rules.
 - Recorded assembled Windows evidence: `verify:hosts` passed bridge 1 with TypeScript 34 and Python 33 on the same common cases and zero failures or skips; `verify:external:hosts` passed both languages, both nested directions and four shared graphs; `verify:release` reported 37 checks; Spike 7 and Universality 14 passed.
-- Optional AI remains separate: the baseline used no AI and the optional graph allowed one controlled inference per Host; the prior TypeScript live baseline passed. The exact tarball is prepared for publication.
+- The baseline used no AI, the optional graph allowed one controlled inference per Host, and the TypeScript live test passed.
+- Published [@artemnoor/mmp@0.1.0](https://www.npmjs.com/package/@artemnoor/mmp/v/0.1.0) to the public npm registry.
 - Final guard passed: native clean-room Python 3.12 `integration.py` reported 47 checks, including capacity, retained keys and launch-pin guards; both Host common suites also passed in Linux Docker with CPython 3.12 and Node 22.

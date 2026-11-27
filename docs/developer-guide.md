@@ -6,7 +6,7 @@ MMP 0.1 gives applications a common way to connect independently versioned modul
 
 ## Install the SDK
 
-Once MMP 0.1.0 is published, install it from the public npm registry in your own Node.js 22.13+ project:
+Install MMP 0.1.0 from the public npm registry in your own Node.js 22.13+ project:
 
 ```sh
 npm install @artemnoor/mmp@0.1.0
